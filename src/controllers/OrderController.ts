@@ -87,7 +87,7 @@ const createStripeSession = async (lineItems: Stripe.Checkout.SessionCreateParam
                     display_name: "Delivery",
                     type: "fixed_amount",
                     fixed_amount: {
-                        amount: deliveryPrice,
+                        amount: deliveryPrice * 100,
                         currency: "cad"
                     }
                 }
