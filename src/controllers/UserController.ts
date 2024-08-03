@@ -44,7 +44,7 @@ const editCurrentUser = async (req: Request, res: Response) => {
 }
 
 const returnCurrentUser = async(req: Request, res: Response) => {
-    console.log("in here")
+    console.log("request successful")
     const id = res.locals.signed.id
     const userDoc = await userModel.findOne({email : id})
     res.json(userDoc)

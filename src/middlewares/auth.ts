@@ -6,7 +6,6 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
   try{
     const signed = jwt.verify(token as string , process.env.JWT_SECRET as Secret)
     res.locals.signed = signed
-    console.log('ver')
     next()
   }
   catch(err){
