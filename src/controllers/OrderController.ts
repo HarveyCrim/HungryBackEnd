@@ -30,7 +30,7 @@ const createLineItems = (checkoutRequest: checkoutRequest, menuItems: menuItemTy
         // console.log(actItem)
         const line_item: Stripe.Checkout.SessionCreateParams.LineItem = {
             price_data: {
-                currency: "gbp",
+                currency: "cad",
                 unit_amount: actItem?.itemPrice!,
                 product_data: {
                     name: actItem?.itemName as string
@@ -88,7 +88,7 @@ const createStripeSession = async (lineItems: Stripe.Checkout.SessionCreateParam
                     type: "fixed_amount",
                     fixed_amount: {
                         amount: deliveryPrice,
-                        currency: "gbp"
+                        currency: "cad"
                     }
                 }
             }
@@ -115,10 +115,8 @@ const stripeHandler = async (req: Request, res: Response) => {
         console.log(err)
         res.json({error: err})
     }
-    // console.log("event")
-    // console.log(event)
+    console.log(event)
     if(event?.type === "checkout.session.completed"){
-        console.log("reached")
        const updatedOrder = await orderModel.findByIdAndUpdate(event.data.object.metadata!.orderId, {status: "inProgress"}, {new: true})
     }
     res.status(200).send()
