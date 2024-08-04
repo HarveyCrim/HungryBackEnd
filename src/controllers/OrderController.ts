@@ -122,7 +122,30 @@ const stripeHandler = async (req: Request, res: Response) => {
     res.status(200).send()
 }
 
+const getMyOrders = async (req: Request, res: Response) => {
+    const user = await userModel.findOne({email : res.locals.signed.id})
+    const orderList = await orderModel.find({user: user?._id}).populate("user").populate("restaurant")
+    res.json(orderList)
+}
+
+const getMyOrdersRes = async (req: Request, res: Response) => {
+    const {resId} = req.query
+    console.log(resId)
+    const orderList = await orderModel.find({restaurant: resId}).populate("user").populate("restaurant").sort({createdAt: 1})
+    console.log(orderList)
+    res.json(orderList)
+}
+
+const updateOrder = async (req: Request, res: Response) => {
+    const {orderId, newStatus} = req.query
+    const updatedOrder = await orderModel.findByIdAndUpdate(orderId, {status: newStatus}, {new : true})
+    res.status(200).send()
+}
+
 export default {
     createCheckoutSession,
-    stripeHandler
+    stripeHandler,
+    getMyOrders,
+    updateOrder,
+    getMyOrdersRes
 }
